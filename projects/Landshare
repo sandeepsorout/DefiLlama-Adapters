@@ -1,1 +1,22 @@
+const LAND_TOKEN_CONTRACT = '0xA73164DB271931CF952cBaEfF9E8F5817b42fA5C';
+const LAND_ASSET_CONTRACT = '0xA73164DB271931CF952cBaEfF9E8F5817b42fA5C';
 
+async function tvl(_, _1, _2, { api }) {
+  const assetBalance = await api.call({
+    abi: 'erc20:balanceOf',
+    target: LAND_TOKEN_CONTRACT,
+    params: [LAND_ASSET_CONTRACT],
+  });
+
+  api.add(LAND_TOKEN_CONTRACT, assetBalance)
+}
+
+module.exports = {
+  timetravel: true,
+  misrepresentedTokens: false,
+  methodology: 'counts the number of Land tokens in the Asset Management contract.',
+  start: 1000235,
+  bsc: {
+    tvl,
+  }
+}; 
